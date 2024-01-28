@@ -1,5 +1,7 @@
 let container = document.querySelector('.container'); 
 let button = document.getElementById('buttonProperties'); 
+let count = 0;
+let countsArray;
 
 function addDiv(numberOfDivsToCreate) {    
     let gridCellDimensions = ((600 / numberOfDivsToCreate - 2)).toFixed(2); 
@@ -17,14 +19,33 @@ function addDiv(numberOfDivsToCreate) {
     }
 
     let gridCells = document.querySelectorAll('.grid'); 
-    gridCells.forEach(cell => cell.addEventListener('mouseenter', changeColor)); 
+    countsArray = Array.from({ length: gridCells.length }, () => 0);
+    gridCells.forEach(function(cell, index) {
+        cell.addEventListener('mouseenter', function(){
+            changeColor(cell,index);
+            updateCount(index);
+        });
+
+    });
     console.log(gridCellDimensions);
     console.log('Grid has been created!!')
 }
 
-// change grid square color to red
-function changeColor() {
-    this.style.backgroundColor = '#ff9999'; 
+function updateCount(index)
+{
+    countsArray[index]++;
+}
+
+// change grid square color to red when blue and vice versa
+function changeColor(cell,index) {
+    if (countsArray[index]%2 == 0)
+    {
+        cell.style.backgroundColor = '#ff9999'; 
+    }
+    else
+    {
+        cell.style.backgroundColor = '#1C86EE';
+    }
 }
 
 // clear grid + prompt for new grid size
